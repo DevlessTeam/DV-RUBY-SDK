@@ -15,8 +15,8 @@ module DVRUBYSDK
   def self.port=(port); @port = port; end
   def self.set_user_token=(dv_user_token); @devless_user_token = dv_user_token; end
 
-def self.request_processor(url, option, payload=nil)
-
+def request_processor(url, option, payload=nil)
+  class SDK
   path = URI(url)
 
   http = Net::HTTP.new(path.host, path.port)
@@ -37,7 +37,7 @@ def self.request_processor(url, option, payload=nil)
   return response.read_body
 end
 
-def self.method_call(service, method, params)
+def method_call(service, method, params)
   base_url = "#{@url}:#{@port}/api/v1/service/#{service}/rpc?action=#{method}"
   get_id = rand(2000*1233)
   payload = {:jsonrpc => "2.0", :method => service, :id => get_id, :params => params}
@@ -77,4 +77,5 @@ def self.delete_data(service, table, key, value)
   return self.request_processor(base_url, "Delete", payload)
 end
 
+  end
 end
