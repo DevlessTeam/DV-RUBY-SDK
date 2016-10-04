@@ -15,7 +15,7 @@ module DVRUBYSDK
   def self.port=(port); $port = port; end
   def self.set_user_token=(dv_user_token); $devless_user_token = dv_user_token; end
 
-  class SDK
+  class Devless
 
     def initialize
       @parameters = {}
@@ -68,7 +68,7 @@ module DVRUBYSDK
     def delete_data(service, table)
       base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db"
       payload = {:resource => [{:name => table, :params => [{:delete => true, :where => "#{@parameters[:where]}"}]}]}
-      
+
       return request_processor(base_url, "Delete", payload)
     end
 
