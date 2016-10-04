@@ -4,19 +4,25 @@ require 'net/http'
 require 'json'
 
 module DVRUBYSDK
+
+  $token = nil
+  $url = nil
+  $port = nil
+  $devless_user_token = nil
+
+  def self.token=(token); $token = token; end
+  def self.url=(url); $url = url; end
+  def self.port=(port); $port = port; end
+  def self.set_user_token=(dv_user_token); $devless_user_token = dv_user_token; end
+
   class SDK
 
-    @token = nil
-    @url = nil
-    @port = nil
-    @devless_user_token = nil
-
-    def self.token=(token); @token = token; end
-    def self.url=(url); @url = url; end
-    def self.port=(port); @port = port; end
-    def self.set_user_token=(dv_user_token); @devless_user_token = dv_user_token; end
+    def initialize
+      @parameters = {}
+    end
 
     def request_processor(url, option, payload=nil)
+      @parameters = {}
       path = URI(url)
 
       http = Net::HTTP.new(path.host, path.port)
@@ -28,9 +34,9 @@ module DVRUBYSDK
       when "Delete" then Net::HTTP::Delete.new(path)
       end
 
-      request["devless-token"] = @token
+      request["devless-token"] = $token
       request["content-type"] = 'application/json'
-      request["devless-user-token"] = @devless_user_token ? @devless_user_token : nil
+      request["devless-user-token"] = $devless_user_token ? $devless_user_token : nil
 
       request.body = payload.to_json if option == "Post" || option == "Patch" ||option == "Delete"
       response = http.request request
@@ -38,45 +44,69 @@ module DVRUBYSDK
     end
 
     def method_call(service, method, params)
-      base_url = "#{@url}:#{@port}/api/v1/service/#{service}/rpc?action=#{method}"
+      base_url = "#{$url}:#{$port}/api/v1/service/#{service}/rpc?action=#{method}"
       get_id = rand(2000*1233)
       payload = {:jsonrpc => "2.0", :method => service, :id => get_id, :params => params}
 
-      return self.request_processor(base_url, "Post", payload)
+      return request_processor(base_url, "Post", payload)
     end
 
-    def self.query_data(service, table, params={})
-      parameters = nil
-      if params.size != 0
-        params.each { |k,v| parameters = "&#{k}=#{v}#{parameters}" }
-        base_url = "#{@url}:#{@port}/api/v1/service/#{service}/db?table=#{table}#{parameters}"
-      else
-        base_url = "#{@url}:#{@port}/api/v1/service/#{service}/db?table=#{table}"
-      end
-      return self.request_processor(base_url, "Get")
-    end
-
-    def self.add_data(service, table, data)
-      base_url = "#{@url}:#{@port}/api/v1/service/#{service}/db"
+    def add_data(service, table, data)
+      base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db"
       payload = {:resource => [{:name => table, :field => [data]}]}
 
-      return self.request_processor(base_url, "Post", payload)
+      return request_processor(base_url, "Post", payload)
     end
 
-    def self.update_data(service, table, key, value, data)
-      base_url = "#{@url}:#{@port}/api/v1/service/#{service}/db"
-      payload = {:resource => [{:name => table, :params => [{:where => "#{key},#{value}", :data => [data]}]}]}
+    def update_data(service, table, data)
+      base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db"
+      payload = {:resource => [{:name => table, :params => [{:where => "#{@parameters[:where]}", :data => [data]}]}]}
 
-      return self.request_processor(base_url, "Patch", payload)
+      return request_processor(base_url, "Patch", payload)
     end
 
-    def self.delete_data(service, table, key, value)
-      base_url = "#{@url}:#{@port}/api/v1/service/#{service}/db"
-      payload = {:resource => [{:name => table, :params => [{:delete => true, :where => "#{key},=,#{value}"}]}]}
-
-      return self.request_processor(base_url, "Delete", payload)
+    def delete_data(service, table)
+      base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db"
+      payload = {:resource => [{:name => table, :params => [{:delete => true, :where => "#{@parameters[:where]}"}]}]}
+      
+      return request_processor(base_url, "Delete", payload)
     end
-    
+
+    def query_data(service, table)
+
+      if @parameters.size != 0
+        params = nil
+        @parameters.each do |key, value|
+          params = "&#{key}=#{value}#{params}"
+        end
+        base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db?table=#{table}#{params}"
+      else
+        base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db?table=#{table}"
+      end
+
+      return request_processor(base_url, "Get")
+    end
+
+    def size(value)
+      @parameters[:size] = value
+      self
+    end
+
+    def where(key, value)
+      @parameters[:where] = "#{key},#{value}"
+      self
+    end
+
+    def order_by(value)
+      @parameters[:orderBy] = value
+      self
+    end
+
+    def offset(value)
+      @parameters[:offset] = value
+      self
+    end
+
   end
 
 end
