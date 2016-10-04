@@ -63,14 +63,14 @@ puts results
 
 #Also you may filter your query with:
 
-size: determine the number of results to return
+``size:`` determine the number of results to return
 
 ```ruby
 results = @devless.size(3).query_data("service_name", "service_table")
 puts results
 ```
 
-offset : Set step in data data to be sent back
+``offset:`` Set step in data data to be sent back
 *NB: This is to be used in combination with size*
 
 ```ruby
@@ -78,14 +78,14 @@ results = @devless.offset(2).size(6).query_data("service_name", "service_table")
 puts results
 ```
 
-where : Get data based where a key matches a certain value
+``where:`` Get data based where a key matches a certain value
 
 ```ruby
 results = @devless.where("name", "Tsatsu").query_data("service_name", "service_table")
 puts results
 ```
 
-order_by : Order incoming results in descending order based on a key
+``order_by:`` Order incoming results in descending order based on a key
 
 ```ruby
 results = @devless.orderBy("name").query_data("service_name", "service_table")
