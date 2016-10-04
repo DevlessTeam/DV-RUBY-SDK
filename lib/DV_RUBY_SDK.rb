@@ -16,7 +16,6 @@ module DVRUBYSDK
   def self.set_user_token=(dv_user_token); @devless_user_token = dv_user_token; end
 
 def request_processor(url, option, payload=nil)
-  class SDK
   path = URI(url)
 
   http = Net::HTTP.new(path.host, path.port)
@@ -77,5 +76,4 @@ def self.delete_data(service, table, key, value)
   return self.request_processor(base_url, "Delete", payload)
 end
 
-  end
 end
