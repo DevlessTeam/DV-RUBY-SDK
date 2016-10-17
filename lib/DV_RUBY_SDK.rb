@@ -18,7 +18,6 @@ module DVRUBYSDK
   class Devless
 
     def initialize
-      # @parameters = {}
       @parameters = Hash.new{|hsh,key| hsh[key] = [] }
     end
 
