@@ -18,7 +18,8 @@ module DVRUBYSDK
   class Devless
 
     def initialize
-      @parameters = {}
+      # @parameters = {}
+      @parameters = Hash.new{|hsh,key| hsh[key] = [] }
     end
 
     def request_processor(url, option, payload=nil)
@@ -40,7 +41,7 @@ module DVRUBYSDK
 
       request.body = payload.to_json if option == "Post" || option == "Patch" ||option == "Delete"
       response = http.request request
-      return response.read_body
+      return response.read_body.to_h
     end
 
     def method_call(service, method, params)
@@ -76,9 +77,18 @@ module DVRUBYSDK
 
       if @parameters.size != 0
         params = nil
-        @parameters.each do |key, value|
-          params = "&#{key}=#{value}#{params}"
+
+        if @parameters.key?(:where)
+          @parameters[:where].each do |value|
+            params ="&where=#{value}#{params}"
+          end
+          @parameters.delete :where
         end
+
+          @parameters.each do |key, value|
+            params = "&#{key}=#{value}#{params}"
+          end
+
         base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db?table=#{table}#{params}"
       else
         base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db?table=#{table}"
@@ -93,7 +103,7 @@ module DVRUBYSDK
     end
 
     def where(key, value)
-      @parameters[:where] = "#{key},#{value}"
+      @parameters[:where].push "#{key},#{value}"
       self
     end
 
