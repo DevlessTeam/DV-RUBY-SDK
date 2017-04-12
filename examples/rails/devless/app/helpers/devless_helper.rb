@@ -1,0 +1,2 @@
+module DevlessHelper
+end
