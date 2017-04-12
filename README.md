@@ -127,7 +127,7 @@ user_token = JSON.parse(user_token)
 ## Step One
 Create a rails app from your terminal and name it anything I will call mine "devless"
 ```
-  $ rails new devless
+$ rails new devless
 ```
 Navigate into the folder from terminal and run bundle
 ```
@@ -166,7 +166,7 @@ In my case my token is "7740b4b2303e32957a3215c344b8c21c" and my url is "http://
   DVRUBYSDK.url   = "http://newerapper.herokuapp.com"
 ```
 
-## Step Three
+## Step Four
 Navigate to app/controller and let's write some logic in the controller we created so we can post and query data on our devless backend. Copy and paste this code in the index action of your controller or you can also paste it in any action in your controller. Please read the comments to see what you have to do to customize it well.
 
 ```Ruby
@@ -185,7 +185,7 @@ Navigate to app/controller and let's write some logic in the controller we creat
   @data_we_want_to_post = {name: "Charles"}
   @post_data_response = devless.add_data(service_name, table_name, data_we_want_to_post)
 ```
-## step Four
+## Step Four
 Access your data from the view or wherever you want to use it. So lets go to our view for the controller ie views/devless/index.html.erb in our case and paste this code and that is it!! Easy!
 ```Rails
   <%= @query_response %>
