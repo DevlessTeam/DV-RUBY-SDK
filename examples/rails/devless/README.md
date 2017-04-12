@@ -70,4 +70,4 @@ Access your data from the view or wherever you want to use it. So lets go to our
 
 This is It you can do whatever you want with it read more methods in the sdk documentation. It is super easy, fast and efficient. Tell your friends about devless.
 
-## If you already have this just download this project and run bundle install on your local change the config/initializers/devless.rb and start using it. happy coding!!. Welcome to Devless
+If you already have this just download this project and run bundle install on your local change the config/initializers/devless.rb and start using it. happy coding!!. Welcome to Devless
