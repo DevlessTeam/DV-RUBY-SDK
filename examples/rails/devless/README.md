@@ -3,7 +3,7 @@
 ## Step One
 Create a rails app from your terminal and name it anything I will call mine "devless"
 ```
-  $ rails new devless
+$ rails new devless
 ```
 Navigate into the folder from terminal and run bundle
 ```
