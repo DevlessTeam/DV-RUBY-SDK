@@ -25,14 +25,14 @@ Or install it yourself as:
 ## Usage
 
 ### Setup your Devless credentials
-#### If you are using rails you may create a new file called devless.rb in the config/initializers folder and set it up with your credentials this way
+If you are using rails you may create a new file called devless.rb in the config/initializers folder and set it up with your credentials this way
 
 ```ruby
 DVRUBYSDK.token = "52babb518f716ea9014baeb42926b9f9"
 DVRUBYSDK.url = "http://myapp.herokuapp.com"
 ```
 
-#### For  a normal Ruby script just follow this procedure
+For  a normal Ruby script just follow this procedure
 
 ```ruby
 require "DV_RUBY_SDK"
