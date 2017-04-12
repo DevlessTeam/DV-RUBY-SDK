@@ -122,7 +122,7 @@ user_token = JSON.parse(user_token)
 
 
 ## Full Rails Example
-# DEVLESS RAILS EXAMAPLE (THE WHOLE PROCESS)
+### DEVLESS RAILS EXAMPLE (THE WHOLE PROCESS)
 
 ## Step One
 Create a rails app from your terminal and name it anything I will call mine "devless"
