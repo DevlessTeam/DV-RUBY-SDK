@@ -51,7 +51,7 @@ query_response = devless.query_data(service_name, table_name)
 puts query_response
 
 
-#lets post data to that same table called "eit_names" which require one filed ie "name"
+#lets post data to that same table called "eit_names" which require one field ie "name"
 data_we_want_to_post = {name: "Charles"}
 post_data_response = devless.add_data(service_name, table_name, data_we_want_to_post)
 puts post_data_response
