@@ -185,7 +185,7 @@ Navigate to app/controller and let's write some logic in the controller we creat
   @data_we_want_to_post = {name: "Charles"}
   @post_data_response = devless.add_data(service_name, table_name, data_we_want_to_post)
 ```
-## Step Four
+## Step Five
 Access your data from the view or wherever you want to use it. So lets go to our view for the controller ie views/devless/index.html.erb in our case and paste this code and that is it!! Easy!
 ```Rails
   <%= @query_response %>
