@@ -2,7 +2,7 @@
 
 Official Devless Ruby SDK
 
-##Official Documentation
+## Official Documentation
 
 Refer to https://docs.devless.io for a detailed documentation.
 
@@ -24,29 +24,27 @@ Or install it yourself as:
 
 ## Usage
 
-#Setup your Devless credentials
-If you are using rails you may create an file under RAILS_ROOT/config/initializers and put these setting there.
+# Setup your Devless credentials
+If you are using rails you may create a new file called devless.rb in the config/initializers folder and begn the set up.
 
 ```ruby
 DVRUBYSDK.token = "52babb518f716ea9014baeb42926b9f9"
-DVRUBYSDK.url = "http://example.com"
-DVRUBYSDK.port = "8000"
+DVRUBYSDK.url = "http://myapp.herokuapp.com"
 ```
 
-For Ruby
+For  a normal Ruby script just follow this procedure
 
 ```ruby
 require "DV_RUBY_SDK"
 DVRUBYSDK.token = "52babb518f716ea9014baeb42926b9f9"
-DVRUBYSDK.url = "http://localhost"
-DVRUBYSDK.port = "8000"
+DVRUBYSDK.url = "http://myapp.herokuapp.com"
 ```
-#Create an instance of the Devless class to have access to the methods
+# Create an instance of the Devless class to have access to the methods
 
 ```ruby
 @devless = DVRUBYSDK::Devless.new
 ```
-#To add data to table
+# To add data to table
 
 ```ruby
 data = {:name => "Tsatsu"}
@@ -54,14 +52,14 @@ results = @devless.add_data("service_name", "service_table", data)
 puts results
 ```
 
-#To query data from table
+# To query data from table
 
 ```ruby
 results = @devless.query_data("service_name", "service_table")
 puts results
 ```
 
-#Also you may filter your query with:
+# Also you may filter your query with:
 
 ``size:`` determine the number of results to return
 
@@ -92,7 +90,7 @@ results = @devless.orderBy("name").query_data("service_name", "service_table")
 puts results
 ```
 
-#To update data in table
+# To update data in table
 
 ```ruby
 data = {:name => "Edwin"}
@@ -100,21 +98,21 @@ results = @devless.where("id", 1).update_data("service_name", "service_table", d
 puts results
 ```
 
-#To delete data from table
+# To delete data from table
 
 ```ruby
 results = @devless.where("id", 1).delete_data("service_name", "service_table")
 puts results
 ```
 
-#Make a call to an Action Class in the Devless instance
+# Make a call to an Action Class in the Devless instance
 
 ```ruby
 results = @devless.method_call("service_name", "method_name", {})
 puts results
 ```
 
-#Authenticating with a Devless instance
+# Authenticating with a Devless instance
 
 ```ruby
 user_token = @devless.method_call("dvauth", "login", {:email => "k@gmail.com", :password => "password"});
