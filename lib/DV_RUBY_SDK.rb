@@ -1,4 +1,4 @@
-require "DV_RUBY_SDK/version"
+require_relative 'DV_RUBY_SDK/version'
 require 'uri'
 require 'net/http'
 require 'json'
@@ -19,28 +19,6 @@ module DVRUBYSDK
 
     def initialize
       @parameters = Hash.new{|hsh,key| hsh[key] = [] }
-    end
-
-    def request_processor(url, option, payload=nil)
-      @parameters = {}
-      path = URI(url)
-
-      http = Net::HTTP.new(path.host, path.port)
-
-      request = case option
-      when "Get"    then Net::HTTP::Get.new(path)
-      when "Post"   then Net::HTTP::Post.new(path)
-      when "Patch"  then Net::HTTP::Patch.new(path)
-      when "Delete" then Net::HTTP::Delete.new(path)
-      end
-
-      request["devless-token"] = $token
-      request["content-type"] = 'application/json'
-      request["devless-user-token"] = $devless_user_token ? $devless_user_token : nil
-
-      request.body = payload.to_json if option == "Post" || option == "Patch" ||option == "Delete"
-      response = http.request request
-      return response.read_body.to_json
     end
 
     def method_call(service, method, params)
@@ -96,6 +74,13 @@ module DVRUBYSDK
       return request_processor(base_url, "Get")
     end
 
+    def search(service, table, column_to_search, text_to_search)
+      params = "&search=#{column_to_search},#{text_to_search}"
+      base_url = "#{$url}:#{$port}/api/v1/service/#{service}/db?table=#{table}#{params}"
+
+      return request_processor(base_url, "Get")
+    end
+
     def size(value)
       @parameters[:size] = value
       self
@@ -114,6 +99,30 @@ module DVRUBYSDK
     def offset(value)
       @parameters[:offset] = value
       self
+    end
+
+    private
+
+    def request_processor(url, option, payload=nil)
+      @parameters = {}
+      path = URI(url)
+
+      http = Net::HTTP.new(path.host, path.port)
+
+      request = case option
+      when "Get"    then Net::HTTP::Get.new(path)
+      when "Post"   then Net::HTTP::Post.new(path)
+      when "Patch"  then Net::HTTP::Patch.new(path)
+      when "Delete" then Net::HTTP::Delete.new(path)
+      end
+
+      request["devless-token"] = $token
+      request["content-type"] = 'application/json'
+      request["devless-user-token"] = $devless_user_token ? $devless_user_token : nil
+
+      request.body = payload.to_json if option == "Post" || option == "Patch" ||option == "Delete"
+      response = http.request request
+      return response.read_body.to_json
     end
 
   end
