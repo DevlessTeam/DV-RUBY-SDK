@@ -1,4 +1,4 @@
-require_relative 'DV_RUBY_SDK/version'
+require 'DV_RUBY_SDK/version'
 require 'uri'
 require 'net/http'
 require 'json'
