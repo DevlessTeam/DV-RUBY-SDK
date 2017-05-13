@@ -24,7 +24,7 @@ Or install it yourself as:
 
 ## Usage
 
-### Setup your Devless credentials
+### Setup your DevLess credentials
 If you are using rails you may create a new file called devless.rb in the config/initializers folder and set it up with your credentials this way
 
 ```ruby
@@ -39,7 +39,7 @@ require "DV_RUBY_SDK"
 DVRUBYSDK.token = "52babb518f716ea9014baeb42926b9f9"
 DVRUBYSDK.url = "http://myapp.herokuapp.com"
 ```
-### Create an instance of the Devless class to have access to the methods
+### Create an instance of the DevLess class to have access to the methods
 
 ```ruby
 @devless = DVRUBYSDK::Devless.new
@@ -105,21 +105,64 @@ results = @devless.where("id", 1).delete_data("service_name", "service_table")
 puts results
 ```
 
-### Make a call to an Action Class in the Devless instance
+### Make a call to an Action Class in the DevLess instance
 
 ```ruby
 results = @devless.method_call("service_name", "method_name", {})
 puts results
 ```
 
-### Authenticating with a Devless instance
+### Authentication! DevLess comes with authentication baked in. You can access the authentication methods using the DevLess SDK
+#### NB: The five methods below require a user token to be set on the header for successful communicatiion with the DevLess backend😎
+
+#### Sign In
 
 ```ruby
-user_token = @devless.method_call("dvauth", "login", {:email => "k@gmail.com", :password => "password"});
-user_token = JSON.parse(user_token)
+results = @devless.method_call("devless", "login", {:email => "k@gmail.com", :password => "password"})
+user_token = JSON.parse(results)['payload']['result']['token']
 @devless.set_user_token(user_token);
 ```
+Options available are 'username', 'email' & 'phone_number'.
 
+#### Sign Up
+```ruby
+results = @devless.method_call("devless", "signUp", {
+  :email        => "k@gmail.com", 
+  :password     => "password", 
+  :username     => "ironman",
+  :phone_number => "+233245632353",
+  :first_name   => "Tony",
+  :last_name    => "Stark",
+})
+user_token = JSON.parse(results)['payload']['result']['token']
+@devless.set_user_token(user_token);
+```
+Options available to set the status & role of accounts.
+
+#### Updating Profile
+```ruby
+results = @devless.method_call("devless", "updateProfile", {
+  :email        => "avenger@gmail.com", 
+  :password     => "dontangryme", 
+  :username     => "hulk",
+  :phone_number => "+233204432432",
+  :first_name   => "Bruce",
+  :last_name    => "Banner",
+})
+puts results
+```
+
+#### Retrieving Profile
+```ruby
+results = @devless.method_call("devless", "profile", {})
+puts results
+```
+
+#### Log Out
+```ruby
+results = @devless.method_call("devless", "logout", {})
+puts results
+```
 
 ## Full Rails Example
 ### DEVLESS RAILS EXAMPLE (THE WHOLE PROCESS)
