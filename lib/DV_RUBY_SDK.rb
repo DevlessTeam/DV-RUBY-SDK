@@ -13,9 +13,12 @@ module DVRUBYSDK
   def self.token=(token); $token = token; end
   def self.url=(url); $url = url; end
   def self.port=(port); $port = port; end
-  def self.set_user_token=(dv_user_token); $devless_user_token = dv_user_token; end
 
   class Devless
+
+    def set_user_token(user_token)
+      $devless_user_token = user_token
+    end
 
     def initialize
       @parameters = Hash.new{|hsh,key| hsh[key] = [] }
