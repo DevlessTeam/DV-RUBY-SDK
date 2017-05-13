@@ -113,7 +113,7 @@ puts results
 ```
 
 ### Authentication! DevLess comes with authentication baked in. You can access the authentication methods using the DevLess SDK
-#### NB: The five methods below require a user token to be set on the header for successful communicatiion with the DevLess backend. 
+#### NB: The five methods below require a user token to be set on the header for successful communicatiion with the DevLess backend😎
 
 #### Sign In
 
