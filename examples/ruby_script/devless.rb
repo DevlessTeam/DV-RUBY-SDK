@@ -28,6 +28,9 @@ You will also need the {url} ie the url of the devless app you created
 my_app_url = "http://newerapper.herokuapp.com"
 If you have these two you can set up
 set it up this way
+In case your app url is on a specific port
+You can specify the port with
+DVRUBYSDK.port = 4040
 =end
 
 my_token = "7740b4b2303e32957a3215c344b8c21c"
