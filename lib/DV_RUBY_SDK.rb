@@ -125,7 +125,7 @@ module DVRUBYSDK
 
       request.body = payload.to_json if option == "Post" || option == "Patch" ||option == "Delete"
       response = http.request request
-      return response.read_body.to_json
+      return response.read_body.to_s
     end
 
   end
